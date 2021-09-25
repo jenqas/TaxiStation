@@ -38,8 +38,8 @@ public class CompanyCar extends Car implements Serializable {
         String carsBase = super.toString().replace("}",
                 ", Tax=" + taxiStationTax +
                         "%"+
-                        ", price=" + price + "}");
-        carsBase = carsBase.replace("{","CompanyCar {");
+                        ", price=" + price + "$ }");
+        carsBase = carsBase.replace("{","CompanyCar { ");
         return carsBase;
     }
 

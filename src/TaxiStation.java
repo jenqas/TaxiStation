@@ -43,6 +43,12 @@ public class TaxiStation {
         return driversCars;
     }
 
+    public void printTaxiStationCars(){
+        for (int i = 0; i < cars.size(); i++) {
+            System.out.println(cars.get(i).toString());
+        }
+    }
+
     public double calculateOwnedCarsCosts(List <CompanyCar> ownedCars){
         double totalCostsOfOwnedCars = 0;
         for (CompanyCar car : ownedCars) {
@@ -107,11 +113,5 @@ public class TaxiStation {
         }
 
     }
-
-//    public void backupTaxiStationCarBase(List<? extends Car> allCars) {
-//
-
-//
-//    }
 
 }

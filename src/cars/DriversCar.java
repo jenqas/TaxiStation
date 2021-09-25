@@ -25,7 +25,7 @@ public class DriversCar extends Car{
         String carsBase = super.toString().replace("}",
                 ", Tax=" + taxiStationTax +
                         "% }");
-        carsBase = carsBase.replace("{","DriversCar {");
+        carsBase = carsBase.replace("{","DriversCar { ");
         return carsBase;
     }
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 
 abstract public class Car {
 
+    private int id;
     private String Brand;
     private String Model;
     private int Year;

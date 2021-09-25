@@ -1,1 +1,1 @@
-[CompanyCar {Brand='Opel', Model='Astra', Year=2010, fuelConsumption=5.5, category=COMFORT, Tax=10%, price=7100.0}]
+[CompanyCar { Brand='Opel', Model='Astra', Year=2010, fuelConsumption=5.5, category=COMFORT, Tax=10%, price=7100.0$ }]
