@@ -1,9 +1,13 @@
 import cars.*;
+import custom_exceptions.IncorrectTaxValueException;
 import models.CarCategory;
 
+import java.io.*;
+import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class TaxiStation {
 
@@ -13,17 +17,30 @@ public class TaxiStation {
         this.cars = cars;
     }
 
-    public List<CompanyCar> getTaxiStationCars(){
+    public List<CompanyCar> getCompanyCars(){
 
-        List<CompanyCar> ownedCars = new ArrayList<>();
+        List<CompanyCar> companyCars = new ArrayList<>();
 
         for (Car car : cars) {
             if (car instanceof CompanyCar) {
-                ownedCars.add((CompanyCar) car);
+                companyCars.add((CompanyCar) car);
             }
         }
 
-        return ownedCars;
+        return companyCars;
+    }
+
+    public List<DriversCar> getDriversCars(){
+
+        List<DriversCar> driversCars = new ArrayList<>();
+
+        for (Car car : cars) {
+            if (car instanceof DriversCar) {
+                driversCars.add((DriversCar) car);
+            }
+        }
+
+        return driversCars;
     }
 
     public double calculateOwnedCarsCosts(List <CompanyCar> ownedCars){
@@ -39,44 +56,62 @@ public class TaxiStation {
         cars.sort(Comparator.comparing(Car::getFuelConsumption));
     }
 
-    public List<CompanyCar> findTaxiStationCarByParameters(String brand, String model, int year, double fuelConsumption, CarCategory category, double price){
+    public void findCompanyCarByParameters(){
 
-        List<CompanyCar> ownedCars = new ArrayList<>();
+        List<CompanyCar> filteredCompanyCars = getCompanyCars();
 
-        for (Car car : cars) {
-            if (car instanceof CompanyCar) {
-                ownedCars.add((CompanyCar) car);
+        try (FileReader reader = new FileReader("data/searchCarParameters.txt");
+             BufferedReader bufferedReader = new BufferedReader(reader);
+             FileWriter writer = new FileWriter("data/searchResult.txt");
+             BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+
+            ArrayList<String> strings = new ArrayList<>();
+            bufferedReader.lines().forEach(strings::add);
+
+            String brand = strings.get(0).replace("Brand='","").replace("'","");
+            String model = strings.get(1).replace("Model='","").replace("'","");
+            int year = Integer.parseInt(strings.get(2).replace("Year='","").replace("'",""));
+            double fuelConsumption = Double.parseDouble(strings.get(3).replace("FuelConsumption='","").replace("'",""));
+            CarCategory category = CarCategory.valueOf(strings.get(4).replace("Category='","").replace("'",""));
+            double price = Double.parseDouble(strings.get(5).replace("Price='","").replace("'",""));;
+
+            filteredCompanyCars.removeIf(o -> !Objects.equals(o.getBrand(), brand));
+            filteredCompanyCars.removeIf(o -> !Objects.equals(o.getModel(), model));
+            filteredCompanyCars.removeIf(o -> !Objects.equals(o.getYear(), year));
+            filteredCompanyCars.removeIf(o -> !Objects.equals(o.getFuelConsumption(), fuelConsumption));
+            filteredCompanyCars.removeIf(o -> !Objects.equals(o.getCategory(), category));
+            filteredCompanyCars.removeIf(o -> !Objects.equals(o.getPrice(), price));
+
+            if (filteredCompanyCars.size()==0) {
+                bufferedWriter.write("No cars found, please check your input parameters...");
+            } else {
+                bufferedWriter.write(filteredCompanyCars.toString());
             }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        ownedCars.removeIf(o -> o.getBrand()!=brand);
-        ownedCars.removeIf(o -> o.getModel()!=model);
-        ownedCars.removeIf(o -> o.getYear()!=year);
-        ownedCars.removeIf(o -> o.getFuelConsumption()!=fuelConsumption);
-        ownedCars.removeIf(o -> o.getCategory()!=category);
-        ownedCars.removeIf(o -> o.getPrice()!=price);
-
-        return ownedCars;
     }
 
-    public List<DriversCar> findDriversCarByParameters(String brand, String model, int year, double fuelConsumption, CarCategory category){
+    public void setTaxes(List<? extends Car> cars, int taxForDriversWithOwnCars, int taxForDriversOnCompanyCars) throws IncorrectTaxValueException {
 
-        List<DriversCar> driversCars = new ArrayList<>();
+        if (taxForDriversWithOwnCars >= taxForDriversOnCompanyCars) throw new IncorrectTaxValueException("TaxiStation Tax for Drivers with own cars should have less amount than for drivers, that use company cars");
+        if (taxForDriversWithOwnCars >50 | taxForDriversWithOwnCars <1) throw new IncorrectTaxValueException("TaxiStation Tax for drivers can't be 0% or >50%");
+        if (taxForDriversOnCompanyCars >50 | taxForDriversOnCompanyCars <1) throw new IncorrectTaxValueException("TaxiStation Tax for drivers can't be 0% or >50%");
 
-        for (Car car : cars) {
-            if (car instanceof DriversCar) {
-                driversCars.add((DriversCar) car);
-            }
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars.get(i) instanceof DriversCar) ((DriversCar) cars.get(i)).setTaxiStationTax(taxForDriversWithOwnCars);
+            if (cars.get(i) instanceof CompanyCar) ((CompanyCar) cars.get(i)).setTaxiStationTax(taxForDriversOnCompanyCars);
         }
 
-        driversCars.removeIf(o -> o.getBrand()!=brand);
-        driversCars.removeIf(o -> o.getModel()!=model);
-        driversCars.removeIf(o -> o.getYear()!=year);
-        driversCars.removeIf(o -> o.getFuelConsumption()!=fuelConsumption);
-        driversCars.removeIf(o -> o.getCategory()!=category);
-
-        return driversCars;
-
     }
+
+//    public void backupTaxiStationCarBase(List<? extends Car> allCars) {
+//
+
+//
+//    }
 
 }

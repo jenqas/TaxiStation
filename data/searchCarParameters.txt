@@ -1,0 +1,6 @@
+Brand='Opel'
+Model='Astra'
+Year='2010'
+FuelConsumption='5.5'
+Category='COMFORT'
+Price='7100'

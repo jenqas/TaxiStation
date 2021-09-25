@@ -2,26 +2,45 @@ package cars;
 
 import models.CarCategory;
 
+import java.io.IOException;
+
 abstract public class Car {
 
-    private long carId;
     private String Brand;
     private String Model;
     private int Year;
     private double fuelConsumption;
     CarCategory category;
 
-    public Car(long carId, String brand, String model, int year, double fuelConsumption, CarCategory category) {
-        this.carId = carId;
+    public Car(String brand, String model, int year, double fuelConsumption, CarCategory category) {
+
+        try {
+            if (year>2021 || year < 2000) throw new IOException("Car Release Year value can not be <2000 and >2021");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (fuelConsumption>15 || fuelConsumption<3) throw new IOException("Fuel Consumption value is invalid..");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (brand=="" || model=="" ) throw new IOException("Brand or Model value can't be empty..");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (CarCategory c: CarCategory.values()) {
+
+        }
+
         this.Brand = brand;
         this.Model = model;
         this.Year = year;
         this.fuelConsumption = fuelConsumption;
         this.category = category;
-    }
-
-    public long getCarId() {
-        return carId;
     }
 
     public String getBrand() {
@@ -38,10 +57,6 @@ abstract public class Car {
 
     public double getFuelConsumption() {
         return fuelConsumption;
-    }
-
-    public void setCarId(long carId) {
-        this.carId = carId;
     }
 
     public void setBrand(String brand) {

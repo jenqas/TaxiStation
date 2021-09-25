@@ -1,31 +1,45 @@
 package cars;
 
+import custom_exceptions.IncorrectTaxValueException;
+import custom_exceptions.WrongPriceAmountException;
 import models.CarCategory;
 
-public class CompanyCar extends Car {
+import java.io.Serializable;
+
+public class CompanyCar extends Car implements Serializable {
 
     private double price;
-    private double taxForEachOrder=10.0;
+    private int taxiStationTax;
 
-    public CompanyCar(long carId, String brand, String model, int year, double fuelConsumption, CarCategory category, double price){
-        super(carId, brand, model, year, fuelConsumption, category);
+    public CompanyCar(String brand, String model, int year, double fuelConsumption, CarCategory category, double price) {
+        super(brand, model, year, fuelConsumption, category);
         this.price = price;
     }
 
     public double getPrice() {
         return price;
     }
-    public double getTaxForEachOrder() {
-        return taxForEachOrder;
+    public int getTaxiStationTax() {
+        return taxiStationTax;
+    }
+
+    public void setPrice(double price) throws WrongPriceAmountException {
+        if (price < 1000 || price > 100000) throw new WrongPriceAmountException("Car Price can't be equal or less than 1000$");
+        this.price = price;
+    }
+
+    public void setTaxiStationTax(int taxiStationTax) throws IncorrectTaxValueException {
+        if (taxiStationTax>50 | taxiStationTax<1) throw new IncorrectTaxValueException("TaxiStation Tax for drivers can't be 0% or >50%");
+        this.taxiStationTax = taxiStationTax;
     }
 
     @Override
     public String toString() {
         String carsBase = super.toString().replace("}",
-                ", taxForEachOrder=" + taxForEachOrder +
+                ", Tax=" + taxiStationTax +
                         "%"+
                         ", price=" + price + "}");
-        carsBase = carsBase.replace("{","\nCompanyCar {");
+        carsBase = carsBase.replace("{","CompanyCar {");
         return carsBase;
     }
 
