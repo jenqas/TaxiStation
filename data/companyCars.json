@@ -1,0 +1,9 @@
+[
+  {"price":7100.0,"taxiStationTax":0,"Brand":"Opel","Model":"Astra","Year":2010,"fuelConsumption":5.5,"category":"COMFORT"},
+  {"price":7400.0,"taxiStationTax":0,"Brand":"VW","Model":"Polo","Year":2012,"fuelConsumption":9.6,"category":"ECONOM"},
+  {"price":13000.0,"taxiStationTax":0,"Brand":"VW","Model":"Polo","Year":2018,"fuelConsumption":10.0,"category":"COMFORT"},
+  {"price":6000.0,"taxiStationTax":0,"Brand":"Renault","Model":"Logan","Year":2009,"fuelConsumption":6.7,"category":"ECONOM"},
+  {"price":21200.0,"taxiStationTax":0,"Brand":"BMW","Model":"GT","Year":2013,"fuelConsumption":12.0,"category":"BUSINESS"},
+  {"price":8300.0,"taxiStationTax":0,"Brand":"Hyundai","Model":"Solaris","Year":2015,"fuelConsumption":7.5,"category":"ECONOM"},
+  {"price":18000.0,"taxiStationTax":0,"Brand":"Audi","Model":"A6","Year":2012,"fuelConsumption":11.0,"category":"BUSINESS"}
+]

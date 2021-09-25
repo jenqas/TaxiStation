@@ -17,6 +17,19 @@ public class TaxiStation {
         this.cars = cars;
     }
 
+    public static ArrayList<? extends Car> getAllCars(List<CompanyCar> companyCars, List<DriversCar> driversCars){
+        ArrayList<Car> allCars = new ArrayList<>();
+
+        for (CompanyCar cCar: companyCars ) {
+            allCars.add(cCar);
+        }
+        for (DriversCar dCar: driversCars ) {
+            allCars.add(dCar);
+        }
+
+        return allCars;
+    }
+
     public List<CompanyCar> getCompanyCars(){
 
         List<CompanyCar> companyCars = new ArrayList<>();
@@ -49,6 +62,12 @@ public class TaxiStation {
         }
     }
 
+    public void printTaxiStationCars(List<? extends Car> carList){
+        for (int i = 0; i < carList.size(); i++) {
+            System.out.println(carList.get(i).toString());
+        }
+    }
+
     public double calculateOwnedCarsCosts(List <CompanyCar> ownedCars){
         double totalCostsOfOwnedCars = 0;
         for (CompanyCar car : ownedCars) {
@@ -62,7 +81,7 @@ public class TaxiStation {
         cars.sort(Comparator.comparing(Car::getFuelConsumption));
     }
 
-    public void findCompanyCarByParameters(){
+    public void findCompanyCarsByParameters(){
 
         List<CompanyCar> filteredCompanyCars = getCompanyCars();
 

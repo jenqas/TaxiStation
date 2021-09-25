@@ -1,0 +1,5 @@
+[
+  {"taxiStationTax":0,"Brand":"Renault","Model":"Laguna","Year":2008,"fuelConsumption":6.6,"category":"ECONOM"},
+  {"taxiStationTax":0,"Brand":"Opel","Model":"Insignia","Year":2010,"fuelConsumption":7.1,"category":"BUSINESS"},
+  {"taxiStationTax":0,"Brand":"Skoda","Model":"Rapid","Year":2017,"fuelConsumption":7.9,"category":"ECONOM"}
+]
